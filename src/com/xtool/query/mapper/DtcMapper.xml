@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xtool.query.mapper.DtcMapper" >
+  <resultMap id="BaseResultMap" type="com.xtool.query.po.Dtc" >
+    <id column="did" property="did" jdbcType="INTEGER" />
+    <result column="dcode" property="dcode" jdbcType="VARCHAR" />
+    <result column="dname" property="dname" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xtool.query.po.DtcWithBLOBs" extends="BaseResultMap" >
+    <result column="dinfo" property="dinfo" jdbcType="LONGVARCHAR" />
+    <result column="dcause" property="dcause" jdbcType="LONGVARCHAR" />
+    <result column="dfix" property="dfix" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    did, dcode, dname
+  </sql>
+  <sql id="Blob_Column_List" >
+    dinfo, dcause, dfix
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.xtool.query.po.DtcExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dtc
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xtool.query.po.DtcExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dtc
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dtc
+    where did = #{did,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dtc
+    where did = #{did,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xtool.query.po.DtcExample" >
+    delete from dtc
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xtool.query.po.DtcWithBLOBs" >
+    insert into dtc (did, dcode, dname, 
+      dinfo, dcause, dfix
+      )
+    values (#{did,jdbcType=INTEGER}, #{dcode,jdbcType=VARCHAR}, #{dname,jdbcType=VARCHAR}, 
+      #{dinfo,jdbcType=LONGVARCHAR}, #{dcause,jdbcType=LONGVARCHAR}, #{dfix,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtool.query.po.DtcWithBLOBs" >
+    insert into dtc
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="did != null" >
+        did,
+      </if>
+      <if test="dcode != null" >
+        dcode,
+      </if>
+      <if test="dname != null" >
+        dname,
+      </if>
+      <if test="dinfo != null" >
+        dinfo,
+      </if>
+      <if test="dcause != null" >
+        dcause,
+      </if>
+      <if test="dfix != null" >
+        dfix,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="did != null" >
+        #{did,jdbcType=INTEGER},
+      </if>
+      <if test="dcode != null" >
+        #{dcode,jdbcType=VARCHAR},
+      </if>
+      <if test="dname != null" >
+        #{dname,jdbcType=VARCHAR},
+      </if>
+      <if test="dinfo != null" >
+        #{dinfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dcause != null" >
+        #{dcause,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dfix != null" >
+        #{dfix,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xtool.query.po.DtcExample" resultType="java.lang.Integer" >
+    select count(*) from dtc
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update dtc
+    <set >
+      <if test="record.did != null" >
+        did = #{record.did,jdbcType=INTEGER},
+      </if>
+      <if test="record.dcode != null" >
+        dcode = #{record.dcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dname != null" >
+        dname = #{record.dname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dinfo != null" >
+        dinfo = #{record.dinfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.dcause != null" >
+        dcause = #{record.dcause,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.dfix != null" >
+        dfix = #{record.dfix,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update dtc
+    set did = #{record.did,jdbcType=INTEGER},
+      dcode = #{record.dcode,jdbcType=VARCHAR},
+      dname = #{record.dname,jdbcType=VARCHAR},
+      dinfo = #{record.dinfo,jdbcType=LONGVARCHAR},
+      dcause = #{record.dcause,jdbcType=LONGVARCHAR},
+      dfix = #{record.dfix,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update dtc
+    set did = #{record.did,jdbcType=INTEGER},
+      dcode = #{record.dcode,jdbcType=VARCHAR},
+      dname = #{record.dname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtool.query.po.DtcWithBLOBs" >
+    update dtc
+    <set >
+      <if test="dcode != null" >
+        dcode = #{dcode,jdbcType=VARCHAR},
+      </if>
+      <if test="dname != null" >
+        dname = #{dname,jdbcType=VARCHAR},
+      </if>
+      <if test="dinfo != null" >
+        dinfo = #{dinfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dcause != null" >
+        dcause = #{dcause,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dfix != null" >
+        dfix = #{dfix,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where did = #{did,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xtool.query.po.DtcWithBLOBs" >
+    update dtc
+    set dcode = #{dcode,jdbcType=VARCHAR},
+      dname = #{dname,jdbcType=VARCHAR},
+      dinfo = #{dinfo,jdbcType=LONGVARCHAR},
+      dcause = #{dcause,jdbcType=LONGVARCHAR},
+      dfix = #{dfix,jdbcType=LONGVARCHAR}
+    where did = #{did,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtool.query.po.Dtc" >
+    update dtc
+    set dcode = #{dcode,jdbcType=VARCHAR},
+      dname = #{dname,jdbcType=VARCHAR}
+    where did = #{did,jdbcType=INTEGER}
+  </update>
+</mapper>

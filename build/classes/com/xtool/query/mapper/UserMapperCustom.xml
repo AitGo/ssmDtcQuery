@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xtool.query.mapper.UserMapperCustom" >
+
+	<sql id="query_user_where">
+   		<if test="custom!=null">
+   			<if test="custom.uname!=null and custom.uname!=''">
+   				user.uname LIKE '%${custom.uname}%'
+   			</if>
+   		</if>
+   </sql>
+   
+   <sql id="query_user_byname_where">
+   		<if test="custom!=null">
+   			<if test="custom.uname!=null and custom.uname!=''">
+   				user.uname='${custom.uname}'
+   			</if>
+   		</if>
+   </sql>
+
+	<select id="findUserList" parameterType="com.xtool.query.po.UserQueryVo"
+		resultType="com.xtool.query.po.UserCustom">
+		SELECT user.* FROM USER
+		<where>
+  			<include refid="query_user_byname_where"></include>
+  		</where>
+	</select>
+	
+	<select id="findUserListByUnamePage" parameterType="com.xtool.query.po.PageBean"
+  		resultType="com.xtool.query.po.UserCustom">
+  		SELECT user.* FROM user 
+  		<where>
+  			<include refid="query_user_where"></include>
+  		</where>
+  		LIMIT ${s},${ps}
+  	</select>
+  	
+  	<select id="findUserCountByUname" parameterType="com.xtool.query.po.UserQueryVo" resultType="int">
+  		SELECT COUNT(*) FROM user 
+		<where>
+  			<include refid="query_user_where"></include>
+  		</where>
+  	</select>
+
+	<select id="findUserByUname" parameterType="string" resultType="com.xtool.query.po.UserCustom">
+		SELECT * FROM USER WHERE uname='${value}'
+	</select>
+
+	
+</mapper>

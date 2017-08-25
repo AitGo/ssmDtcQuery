@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xtool.query.mapper.DtcMapperCustom" >
+
+   <sql id="query_dtc_where">
+   		<if test="custom!=null">
+   			<if test="custom.dcode!=null and custom.dcode!=''">
+   				dtc.dcode LIKE '%${custom.dcode}%'
+   			</if>
+   		</if>
+   </sql>
+   
+  	
+  	<!-- 故障码列表查询 -->
+  	<!-- parameterType传入包装对象(包装了查询条件)
+  		resultType建议使用扩展对象
+  	 -->
+  	<select id="findDtcList" parameterType="com.xtool.query.po.DtcQueryVo"
+  		 resultType="com.xtool.query.po.DtcCustom">
+  		SELECT dtc.* FROM dtc  
+  		<where>
+  			<include refid="query_dtc_where"></include>
+  		</where>
+  	</select>
+  	
+  	<select id="findDtcListByPage" parameterType="com.xtool.query.po.PageBean"
+  		resultType="com.xtool.query.po.DtcCustom">
+  		SELECT dtc.* FROM dtc 
+  		<where>
+  			<include refid="query_dtc_where"></include>
+  		</where>
+  		LIMIT ${s},${ps}
+  	</select>
+  	
+  	<select id="findDtcCount" resultType="int">
+  		SELECT COUNT(*) FROM dtc
+  	</select>
+  	
+  	<select id="findDtcCountByDcode" parameterType="com.xtool.query.po.DtcQueryVo" resultType="int">
+  		SELECT COUNT(*) FROM dtc 
+		<where>
+  			<include refid="query_dtc_where"></include>
+  		</where>
+  	</select>
+  	
+</mapper>

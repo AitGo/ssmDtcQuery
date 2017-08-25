@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xtool.query.mapper.CarMapperCustom" >
+
+	<sql id="query_car_where">
+   		<if test="custom!=null">
+   			<if test="custom.cname!=null and custom.cname!=''">
+   				car.cname LIKE '%${custom.cname}%'
+   			</if>
+   		</if>
+   </sql>
+
+	<select id="findCarListByCnamePage" parameterType="com.xtool.query.po.PageBean" 
+		resultMap="CarUser">
+		SELECT user.*,car.* FROM USER,car WHERE user.`uid`=car.`cuid`
+		<if test="custom!=null">
+   			<if test="custom.cname!=null and custom.cname!=''">
+   				and car.cname LIKE '%${custom.cname}%'
+   			</if>
+   		</if>
+	</select>
+	
+	<resultMap type="com.xtool.query.po.CarCustom" id="CarUser">
+		<id column="cid" property="cid"/>
+		<result column="cname" property="cname"/>
+		<result column="ctype" property="ctype"/>
+		<result column="cproduct" property="cproduct"/>
+		<result column="cdisplacement" property="cdisplacement"/>
+		<result column="cuid" property="cuid"/>
+		
+		<association property="userCustom" javaType="com.xtool.query.po.UserCustom">
+			<id column="uid" property="uid"/>
+			<result column="uname" property="uname"/>
+			<result column="upassword" property="upassword"/>
+		</association>
+	</resultMap>
+	
+	<select id="findCarCountByCname" parameterType="com.xtool.query.po.CarQueryVo"
+		resultType="int">
+			SELECT COUNT(*) FROM car 
+		<where>
+  			<include refid="query_car_where"></include>
+  		</where>
+	</select>
+	
+	<select id="findCarByCuid" parameterType="int" resultType="com.xtool.query.po.CarCustom">
+		SELECT car.* FROM car WHERE cuid='${value}'
+	</select>
+</mapper>
+
