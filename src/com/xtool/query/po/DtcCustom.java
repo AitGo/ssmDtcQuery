@@ -2,7 +2,7 @@ package com.xtool.query.po;
 
 public class DtcCustom extends Dtc{
 	
-	private String aesKey;
+	private String key;
 	
 	private String dinfo;
 
@@ -11,12 +11,14 @@ public class DtcCustom extends Dtc{
 	private String dfix;
 	
 
-	public String getAesKey() {
-		return aesKey;
+	
+
+	public String getKey() {
+		return key;
 	}
 
-	public void setAesKey(String aesKey) {
-		this.aesKey = aesKey;
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 	public String getDinfo() {

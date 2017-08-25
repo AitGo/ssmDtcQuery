@@ -36,7 +36,7 @@ public class AppController {
 	@RequestMapping("/queryDtcByDcodeJson")
 	public @ResponseBody List<DtcCustom> queryDtcByDcodeJson(@RequestBody DtcCustom dtcCusotm) throws Exception {
 		RSAPrivateKey privateKey = RSAUtils.getPrivateKeyFile();
-		 String aesKey = RSAUtils.decryptByPrivateKey(dtcCusotm.getAesKey(),privateKey);
+		 String aesKey = RSAUtils.decryptByPrivateKey(dtcCusotm.getKey(),privateKey);
 		 String dcode = AESUtil.decrypt(dtcCusotm.getDcode(), aesKey);
 		 dtcCusotm.setDcode(dcode);
 		 DtcQueryVo dtcQueryVo = new DtcQueryVo();
