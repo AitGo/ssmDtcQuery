@@ -15,6 +15,7 @@ import com.xtool.query.po.DtcCustom;
 import com.xtool.query.po.DtcQueryVo;
 import com.xtool.query.service.DtcService;
 import com.xtool.query.utils.AESUtil;
+import com.xtool.query.utils.Base64Utils;
 import com.xtool.query.utils.RSAUtils;
 
 @Controller
@@ -23,6 +24,8 @@ public class AppController {
 
 	@Autowired
 	private DtcService dtcService;
+	private String privateKeyPath = "D:\\file\\privateKey.cer"; 
+	private String publicKeyPath = "D:\\file\\publicKey.cer"; 
 	
 	@RequestMapping("/queryDtcByDcode")
 	public @ResponseBody List<DtcCustom> queryDtcByDcode(HttpServletRequest request) throws Exception {
@@ -34,16 +37,14 @@ public class AppController {
 	}
 	
 	@RequestMapping("/queryDtcByDcodeJson")
-	public @ResponseBody List<DtcCustom> queryDtcByDcodeJson(@RequestBody DtcCustom dtcCusotm) throws Exception {
-		RSAPrivateKey privateKey = RSAUtils.getPrivateKeyFile();
-		 String aesKey = RSAUtils.decryptByPrivateKey(dtcCusotm.getKey(),privateKey);
-		 String dcode = AESUtil.decrypt(dtcCusotm.getDcode(), aesKey);
-		 dtcCusotm.setDcode(dcode);
+	public @ResponseBody List<DtcCustom> queryDtcByDcodeJson(@RequestBody DtcCustom dtcCustom) throws Exception {
+		String sAesKey = RSAUtils.decryptByPrivateKey(privateKeyPath, dtcCustom.getKey());
+		 String dcode = AESUtil.decrypt(dtcCustom.getDcode(), sAesKey);
+		 dtcCustom.setDcode(dcode);
 		 DtcQueryVo dtcQueryVo = new DtcQueryVo();
-		 dtcQueryVo.setCustom(dtcCusotm);
+		 dtcQueryVo.setCustom(dtcCustom);
 		List<DtcCustom> dtcList = dtcService.findDtcList(dtcQueryVo);
 		System.out.println(dtcList.toString());
-		System.out.println("2222222222");
 		return dtcList;
 	}
 }
