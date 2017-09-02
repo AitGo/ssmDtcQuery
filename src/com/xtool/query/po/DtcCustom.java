@@ -1,6 +1,12 @@
 package com.xtool.query.po;
 
-public class DtcCustom extends Dtc{
+public class DtcCustom {
+	
+	private Integer did;
+
+    private String dcode;
+
+    private String dname;
 	
 	private String key;
 	
@@ -12,6 +18,30 @@ public class DtcCustom extends Dtc{
 	
 
 	
+
+	public Integer getDid() {
+		return did;
+	}
+
+	public void setDid(Integer did) {
+		this.did = did;
+	}
+
+	public String getDcode() {
+		return dcode;
+	}
+
+	public void setDcode(String dcode) {
+		this.dcode = dcode;
+	}
+
+	public String getDname() {
+		return dname;
+	}
+
+	public void setDname(String dname) {
+		this.dname = dname;
+	}
 
 	public String getKey() {
 		return key;
@@ -47,8 +77,11 @@ public class DtcCustom extends Dtc{
 
 	@Override
 	public String toString() {
-		return "DtcCustom [dinfo=" + dinfo + ", dcause=" + dcause + ", dfix=" + dfix + "]";
+		return "DtcCustom [did=" + did + ", dcode=" + dcode + ", dname=" + dname + ", key=" + key + ", dinfo=" + dinfo
+				+ ", dcause=" + dcause + ", dfix=" + dfix + "]";
 	}
+
+	
 	
 	
 

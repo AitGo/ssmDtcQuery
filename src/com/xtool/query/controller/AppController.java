@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xtool.query.po.DtcCustom;
 import com.xtool.query.po.DtcQueryVo;
+import com.xtool.query.po.Message;
 import com.xtool.query.service.DtcService;
 import com.xtool.query.utils.AESUtil;
 import com.xtool.query.utils.Base64Utils;
+import com.xtool.query.utils.EnCodingUtils;
 import com.xtool.query.utils.RSAUtils;
+import com.xtool.query.utils.RandomUtils;
 
 @Controller
 @RequestMapping("/app")
@@ -37,14 +40,23 @@ public class AppController {
 	}
 	
 	@RequestMapping("/queryDtcByDcodeJson")
-	public @ResponseBody List<DtcCustom> queryDtcByDcodeJson(@RequestBody DtcCustom dtcCustom) throws Exception {
+	public @ResponseBody Message<List<DtcCustom>> queryDtcByDcodeJson(@RequestBody DtcCustom dtcCustom) throws Exception {
+		Message<List<DtcCustom>> message = new Message<List<DtcCustom>>();
 		String sAesKey = RSAUtils.decryptByPrivateKey(privateKeyPath, dtcCustom.getKey());
 		 String dcode = AESUtil.decrypt(dtcCustom.getDcode(), sAesKey);
 		 dtcCustom.setDcode(dcode);
 		 DtcQueryVo dtcQueryVo = new DtcQueryVo();
 		 dtcQueryVo.setCustom(dtcCustom);
 		List<DtcCustom> dtcList = dtcService.findDtcList(dtcQueryVo);
-		System.out.println(dtcList.toString());
-		return dtcList;
+		String uuid = RandomUtils.getRandomValue(16);
+		for(DtcCustom dtc : dtcList) {
+			dtc.setKey(uuid);
+			EnCodingUtils.encoding(dtc,uuid);
+		}
+		message.setData(dtcList);
+		message.setCode(0);
+		message.setMsg("");
+		
+		return message;
 	}
 }
