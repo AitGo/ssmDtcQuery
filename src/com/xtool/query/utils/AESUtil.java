@@ -33,16 +33,12 @@ public class AESUtil {
 	 * @param key
 	 * @return
 	 */
-    public static String decrypt(String data, String key) {  
-        try {  
+    public static String decrypt(String data, String key)throws Exception {  
             SecretKeySpec spec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");  
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");  
             cipher.init(Cipher.DECRYPT_MODE , spec , new IvParameterSpec(new byte[cipher.getBlockSize()]));  
             byte[] originBytes = Base64.decode(data);  
             byte[] result = cipher.doFinal(originBytes);  
             return new String(result,"UTF-8");  
-        } catch (Exception e) {  
-            return null;  
-        }  
     }  
 }
