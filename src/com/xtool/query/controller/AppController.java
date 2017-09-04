@@ -42,11 +42,12 @@ public class AppController {
 	@RequestMapping("/queryDtcByDcodeJson")
 	public @ResponseBody Message<List<DtcCustom>> queryDtcByDcodeJson(@RequestBody DtcCustom dtcCustom) throws Exception {
 		Message<List<DtcCustom>> message = new Message<List<DtcCustom>>();
+		
 		String sAesKey = RSAUtils.decryptByPrivateKey(privateKeyPath, dtcCustom.getKey());
-		 String dcode = AESUtil.decrypt(dtcCustom.getDcode(), sAesKey);
-		 dtcCustom.setDcode(dcode);
-		 DtcQueryVo dtcQueryVo = new DtcQueryVo();
-		 dtcQueryVo.setCustom(dtcCustom);
+		String dcode = AESUtil.decrypt(dtcCustom.getDcode(), sAesKey);
+		dtcCustom.setDcode(dcode);
+		DtcQueryVo dtcQueryVo = new DtcQueryVo();
+		dtcQueryVo.setCustom(dtcCustom);
 		List<DtcCustom> dtcList = dtcService.findDtcList(dtcQueryVo);
 		String uuid = RandomUtils.getRandomValue(16);
 		for(DtcCustom dtc : dtcList) {
@@ -54,8 +55,8 @@ public class AppController {
 			EnCodingUtils.encoding(dtc,uuid);
 		}
 		message.setData(dtcList);
-		message.setCode(0);
-		message.setMsg("");
+		message.setCode(101);
+		message.setMsg("错误");
 		
 		return message;
 	}

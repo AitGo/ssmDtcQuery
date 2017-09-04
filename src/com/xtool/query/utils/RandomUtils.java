@@ -6,7 +6,6 @@ package com.xtool.query.utils;
 
 public class RandomUtils {
 	
-	public static String uuid;
     /*产生numSize位16进制的数*/
     public static String getRandomValue(int numSize) {
         String str = "";
