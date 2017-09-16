@@ -35,6 +35,28 @@
   		LIMIT ${s},${ps}
   	</select>
   	
+  	<select id="findUserDTOListByUnamePage" parameterType="com.xtool.query.po.UserQueryVo"
+  		resultMap="UserCar">
+  		SELECT user.*,car.* FROM USER LEFT JOIN car ON (car.cuid=user.uid) 
+  		WHERE user.`uname`='${custom.uname}' AND user.`upassword`='${custom.upassword}'
+  		
+  		
+  	</select>
+  	
+  	<resultMap type="com.xtool.query.po.UserDTO" id="UserCar">
+		
+		<result column="uname" property="uname"/>
+		
+		
+		<association property="carDTO" javaType="com.xtool.query.po.CarDTO">
+			<result column="cname" property="cname"/>
+			<result column="ctype" property="ctype"/>
+			<result column="cproduct" property="cproduct"/>
+			<result column="cdisplacement" property="cdisplacement"/>
+			<result column="cuid" property="cuid"/>
+		</association>
+	</resultMap>
+  	
   	<select id="findUserCountByUname" parameterType="com.xtool.query.po.UserQueryVo" resultType="int">
   		SELECT COUNT(*) FROM user 
 		<where>
@@ -44,6 +66,10 @@
 
 	<select id="findUserByUname" parameterType="string" resultType="com.xtool.query.po.UserCustom">
 		SELECT * FROM USER WHERE uname='${value}'
+	</select>
+	
+	<select id="findUserByUnameUpassword" parameterType="com.xtool.query.po.UserQueryVo" resultType="com.xtool.query.po.UserCustom">
+		SELECT * FROM USER WHERE uname='${custom.uname}' and upassword='${custom.upassword}' 
 	</select>
 
 	

@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.xtool.query.exception.CustomException;
 import com.xtool.query.mapper.UserMapper;
 import com.xtool.query.mapper.UserMapperCustom;
+import com.xtool.query.po.CarCustom;
 import com.xtool.query.po.PageBean;
 import com.xtool.query.po.User;
 import com.xtool.query.po.UserCustom;
+import com.xtool.query.po.UserDTO;
 import com.xtool.query.po.UserQueryVo;
 import com.xtool.query.service.UserService;
 
@@ -30,6 +32,12 @@ public class UserServiceImpl implements UserService{
 	public List<UserCustom> findUserListByUnamePage(PageBean<UserCustom> pageBean) throws Exception {
 		
 		return mapperCustom.findUserListByUnamePage(pageBean);
+	}
+	
+	@Override
+	public List<UserDTO> findUserDTOListByUnamePage(UserQueryVo userQueryVo) throws Exception {
+		
+		return mapperCustom.findUserDTOListByUnamePage(userQueryVo);
 	}
 
 	@Override
@@ -87,5 +95,13 @@ public class UserServiceImpl implements UserService{
 		
 		return userCustom;
 	}
+
+	@Override
+	public List<UserCustom> findUserByUnameUpassword(UserQueryVo userQueryVo) throws Exception {
+		
+		return mapperCustom.findUserByUnameUpassword(userQueryVo);
+	}
+
+	
 
 }

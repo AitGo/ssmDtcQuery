@@ -154,9 +154,10 @@ function deleteDtcList() {
                         <li>
                             <a href="${pageContext.request.contextPath }/car/queryCarByUserPage.action"><i class="fa fa-indent nav_icon"></i>车辆管理</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="${pageContext.request.contextPath }/user/findUserCar.action"><i class="fa fa-indent nav_icon"></i>车辆管理</a>
                         </li>
+                       
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

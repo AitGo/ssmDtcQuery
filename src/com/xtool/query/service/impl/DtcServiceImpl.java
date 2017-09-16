@@ -9,6 +9,7 @@ import com.xtool.query.exception.CustomException;
 import com.xtool.query.mapper.DtcMapper;
 import com.xtool.query.mapper.DtcMapperCustom;
 import com.xtool.query.po.DtcCustom;
+import com.xtool.query.po.DtcDTO;
 import com.xtool.query.po.DtcQueryVo;
 import com.xtool.query.po.DtcWithBLOBs;
 import com.xtool.query.po.PageBean;
@@ -26,6 +27,12 @@ public class DtcServiceImpl implements DtcService{
 	public List<DtcCustom> findDtcList(DtcQueryVo dtcQueryVo) throws Exception {
 		List<DtcCustom> findDtcList = mapperCustom.findDtcList(dtcQueryVo);
 		return findDtcList;
+	}
+	
+	@Override
+	public List<DtcCustom> findDtcListByQuery(DtcQueryVo dtcQueryVo) throws Exception {
+		
+		return mapperCustom.findDtcListByQuery(dtcQueryVo);
 	}
 	
 	public DtcCustom findDtcById(Integer id) throws Exception {
@@ -84,6 +91,14 @@ public class DtcServiceImpl implements DtcService{
 		mapper.insert(dtc);
 		
 	}
+
+	@Override
+	public List<DtcDTO> findDtcDTOList(DtcQueryVo dtcQueryVo) throws Exception {
+		return mapperCustom.findDtcDTOList(dtcQueryVo);
+		
+	}
+
+	
 
 	
 	

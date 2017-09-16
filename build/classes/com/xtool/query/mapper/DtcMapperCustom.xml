@@ -23,6 +23,15 @@
   		</where>
   	</select>
   	
+  	<select id="findDtcListByQuery" parameterType="com.xtool.query.po.DtcQueryVo"
+  		 resultType="com.xtool.query.po.DtcCustom">
+  		SELECT dtc.* FROM dtc  
+  		<where>
+  			<include refid="query_dtc_where"></include>
+  		</where>
+  		limit ${s},${ps}
+  	</select>
+  	
   	<select id="findDtcListByPage" parameterType="com.xtool.query.po.PageBean"
   		resultType="com.xtool.query.po.DtcCustom">
   		SELECT dtc.* FROM dtc 
@@ -39,6 +48,14 @@
   	<select id="findDtcCountByDcode" parameterType="com.xtool.query.po.DtcQueryVo" resultType="int">
   		SELECT COUNT(*) FROM dtc 
 		<where>
+  			<include refid="query_dtc_where"></include>
+  		</where>
+  	</select>
+  	
+  	<select id="findDtcDTOList" parameterType="com.xtool.query.po.DtcQueryVo"
+  		 resultType="com.xtool.query.po.DtcDTO">
+  		SELECT dtc.* FROM dtc  
+  		<where>
   			<include refid="query_dtc_where"></include>
   		</where>
   	</select>

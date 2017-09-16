@@ -1,32 +1,18 @@
 package com.xtool.query.po;
 
-public class CarCustom {
+public class CarDTO {
 	
-	 private Integer cid;
+    private String cname;
 
-	    private String cname;
+    private String ctype;
 
-	    private String ctype;
+    private String cproduct;
 
-	    private String cproduct;
+    private String cdisplacement;
 
-	    private String cdisplacement;
+    private Integer cuid;
 
-	    private Integer cuid;
-	
-	private String key;
-
-	private UserCustom userCustom;
-	
-	
-
-	public Integer getCid() {
-		return cid;
-	}
-
-	public void setCid(Integer cid) {
-		this.cid = cid;
-	}
+    private String key;
 
 	public String getCname() {
 		return cname;
@@ -75,14 +61,6 @@ public class CarCustom {
 	public void setKey(String key) {
 		this.key = key;
 	}
-
-	public UserCustom getUserCustom() {
-		return userCustom;
-	}
-
-	public void setUserCustom(UserCustom userCustom) {
-		this.userCustom = userCustom;
-	}
-	
-	
+    
+    
 }

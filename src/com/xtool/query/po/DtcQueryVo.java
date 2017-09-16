@@ -8,8 +8,28 @@ public class DtcQueryVo {
 	
 	private Integer pc;
 	
+	private Integer ps;
+	
+	private Integer s;
+	
 	
 
+
+	public Integer getPs() {
+		return ps;
+	}
+
+	public void setPs(Integer ps) {
+		this.ps = ps;
+	}
+
+	public Integer getS() {
+		return s;
+	}
+
+	public void setS(Integer s) {
+		this.s = s;
+	}
 
 	public Integer getPc() {
 		return pc;

@@ -1,8 +1,6 @@
 package com.xtool.query.po;
 
-public class DtcCustom {
-	
-	private Integer did;
+public class DtcDTO {
 
     private String dcode;
 
@@ -15,35 +13,7 @@ public class DtcCustom {
 	private String dcause;
 
 	private String dfix;
-	
-	private Integer s;
-	
-	private Integer ps;
-	
 
-	public Integer getS() {
-		return s;
-	}
-
-	public void setS(Integer s) {
-		this.s = s;
-	}
-
-	public Integer getPs() {
-		return ps;
-	}
-
-	public void setPs(Integer ps) {
-		this.ps = ps;
-	}
-
-	public Integer getDid() {
-		return did;
-	}
-
-	public void setDid(Integer did) {
-		this.did = did;
-	}
 
 	public String getDcode() {
 		return dcode;
@@ -92,15 +62,6 @@ public class DtcCustom {
 	public void setDfix(String dfix) {
 		this.dfix = dfix;
 	}
-
-	@Override
-	public String toString() {
-		return "DtcCustom [did=" + did + ", dcode=" + dcode + ", dname=" + dname + ", key=" + key + ", dinfo=" + dinfo
-				+ ", dcause=" + dcause + ", dfix=" + dfix + "]";
-	}
-
 	
 	
-	
-
 }
