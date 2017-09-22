@@ -11,7 +11,7 @@ public interface DtcService {
 
 	public List<DtcCustom> findDtcList(DtcQueryVo dtcQueryVo)throws Exception;
 	
-	public List<DtcCustom> findDtcListByQuery(DtcQueryVo dtcQueryVo)throws Exception;
+	public List<DtcDTO> findDtcListByQuery(DtcQueryVo dtcQueryVo)throws Exception;
 	
 	public DtcCustom findDtcById(Integer id) throws Exception;
 	

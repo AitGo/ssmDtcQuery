@@ -17,7 +17,7 @@ public interface DtcMapperCustom {
 	 */
 	public List<DtcCustom> findDtcList(DtcQueryVo dtcQueryVo) throws Exception;
 	
-	public List<DtcCustom> findDtcListByQuery(DtcQueryVo dtcQueryVo) throws Exception;
+	public List<DtcDTO> findDtcListByQuery(DtcQueryVo dtcQueryVo) throws Exception;
 	
 	public List<DtcCustom> findDtcListByPage(PageBean<DtcCustom> pageBean) throws Exception;
 	

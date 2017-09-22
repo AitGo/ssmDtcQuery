@@ -30,7 +30,7 @@ public class DtcServiceImpl implements DtcService{
 	}
 	
 	@Override
-	public List<DtcCustom> findDtcListByQuery(DtcQueryVo dtcQueryVo) throws Exception {
+	public List<DtcDTO> findDtcListByQuery(DtcQueryVo dtcQueryVo) throws Exception {
 		
 		return mapperCustom.findDtcListByQuery(dtcQueryVo);
 	}

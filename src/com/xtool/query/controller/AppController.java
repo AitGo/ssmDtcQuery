@@ -2,6 +2,7 @@ package com.xtool.query.controller;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +14,7 @@ import com.xtool.query.po.CarDTO;
 import com.xtool.query.po.DtcCustom;
 import com.xtool.query.po.DtcDTO;
 import com.xtool.query.po.DtcQueryVo;
-import com.xtool.query.po.Message;
+import com.xtool.query.po.MessageDTO;
 import com.xtool.query.po.UserCustom;
 import com.xtool.query.po.UserDTO;
 import com.xtool.query.po.UserQueryVo;
@@ -35,8 +36,8 @@ public class AppController {
 	private String publicKeyPath = "D:\\file\\publicKey.cer"; 
 	
 	@RequestMapping("/queryDtcByDcodeJson")
-	public @ResponseBody Message<List<DtcDTO>> queryDtcByDcodeJson(@RequestBody DtcCustom dtcCustom) throws Exception {
-		Message<List<DtcDTO>> message = new Message<List<DtcDTO>>();
+	public @ResponseBody MessageDTO<List<DtcDTO>> queryDtcByDcodeJson(@RequestBody DtcCustom dtcCustom) throws Exception {
+		MessageDTO<List<DtcDTO>> message = new MessageDTO<List<DtcDTO>>();
 		String sAesKey = null;
 		String dcode = null;
 		message.setCode(0);
@@ -51,7 +52,7 @@ public class AppController {
 			dtcQueryVo.setCustom(dtcCustom);
 			dtcQueryVo.setS(dtcCustom.getS());
 			dtcQueryVo.setPs(dtcCustom.getPs());
-			List<DtcDTO> dtcList = dtcService.findDtcDTOList(dtcQueryVo);
+			List<DtcDTO> dtcList = dtcService.findDtcListByQuery(dtcQueryVo);
 			String uuid = RandomUtils.getRandomValue(16);
 			for(DtcDTO dtc : dtcList) {
 				dtc.setKey(uuid);
@@ -66,8 +67,8 @@ public class AppController {
 	}
 	
 	@RequestMapping("/userLogin")
-	public @ResponseBody Message<List<UserDTO>> userLogin(@RequestBody UserCustom userCustom) {
-		Message<List<UserDTO>> message = new  Message<List<UserDTO>>();
+	public @ResponseBody MessageDTO<List<UserDTO>> userLogin(@RequestBody UserCustom userCustom) {
+		MessageDTO<List<UserDTO>> message = new  MessageDTO<List<UserDTO>>();
 		message.setCode(0);
 		message.setMsg("");
 		String sAesKey = null;
@@ -103,5 +104,30 @@ public class AppController {
 			message.setMsg("密钥错误");
 		}
 		return message;
+	}
+	
+	@RequestMapping("/upasswordUpdate")
+	public @ResponseBody MessageDTO<UserDTO> upasswordUpdate(@RequestBody UserCustom userCustom) {
+		MessageDTO<List<UserDTO>> message = new  MessageDTO<List<UserDTO>>();
+		message.setCode(0);
+		message.setMsg("");
+		String sAesKey = null;
+		UserDTO userDTO;
+		try {
+			sAesKey = RSAUtils.decryptByPrivateKey(privateKeyPath, userCustom.getKey());
+			CodingUtils.DeCoding(userCustom, sAesKey);
+			UserCustom user = userService.findUserByUname(userCustom.getUname());
+			userService.updateUser(user.getUid(), userCustom);
+			UserCustom custom = userService.findUserById(user.getUid());
+			userDTO = new UserDTO();
+			BeanUtils.copyProperties(custom, userDTO);
+			String uuid = RandomUtils.getRandomValue(16);
+			CodingUtils.encodingByPrivateKey(userDTO, uuid);
+		}catch (Exception e) {
+			message.setCode(101);
+			message.setMsg("密钥错误");
+		}
+		
+		return null;
 	}
 }

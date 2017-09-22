@@ -1,6 +1,6 @@
 package com.xtool.query.po;
 
-public class Message<T> {
+public class MessageDTO<T> {
 	
 	private int code;
 	private String msg;

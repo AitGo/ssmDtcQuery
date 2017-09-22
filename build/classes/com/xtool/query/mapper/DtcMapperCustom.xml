@@ -24,7 +24,7 @@
   	</select>
   	
   	<select id="findDtcListByQuery" parameterType="com.xtool.query.po.DtcQueryVo"
-  		 resultType="com.xtool.query.po.DtcCustom">
+  		 resultType="com.xtool.query.po.DtcDTO">
   		SELECT dtc.* FROM dtc  
   		<where>
   			<include refid="query_dtc_where"></include>
