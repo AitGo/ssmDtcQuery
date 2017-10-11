@@ -23,4 +23,6 @@ public interface UserMapperCustom {
 	
 	public List<UserCustom> findUserByUnameUpassword(UserQueryVo userQueryVo) throws Exception;
 	
+	public void updateUserByUname(UserCustom userCustom) throws Exception;
+	
 }

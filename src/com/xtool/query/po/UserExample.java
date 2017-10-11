@@ -303,6 +303,76 @@ public class UserExample {
             addCriterion("upassword not between", value1, value2, "upassword");
             return (Criteria) this;
         }
+
+        public Criteria andIsloginIsNull() {
+            addCriterion("islogin is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsloginIsNotNull() {
+            addCriterion("islogin is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsloginEqualTo(String value) {
+            addCriterion("islogin =", value, "islogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsloginNotEqualTo(String value) {
+            addCriterion("islogin <>", value, "islogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsloginGreaterThan(String value) {
+            addCriterion("islogin >", value, "islogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsloginGreaterThanOrEqualTo(String value) {
+            addCriterion("islogin >=", value, "islogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsloginLessThan(String value) {
+            addCriterion("islogin <", value, "islogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsloginLessThanOrEqualTo(String value) {
+            addCriterion("islogin <=", value, "islogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsloginLike(String value) {
+            addCriterion("islogin like", value, "islogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsloginNotLike(String value) {
+            addCriterion("islogin not like", value, "islogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsloginIn(List<String> values) {
+            addCriterion("islogin in", values, "islogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsloginNotIn(List<String> values) {
+            addCriterion("islogin not in", values, "islogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsloginBetween(String value1, String value2) {
+            addCriterion("islogin between", value1, value2, "islogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsloginNotBetween(String value1, String value2) {
+            addCriterion("islogin not between", value1, value2, "islogin");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

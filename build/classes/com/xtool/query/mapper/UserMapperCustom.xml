@@ -40,13 +40,12 @@
   		SELECT user.*,car.* FROM USER LEFT JOIN car ON (car.cuid=user.uid) 
   		WHERE user.`uname`='${custom.uname}' AND user.`upassword`='${custom.upassword}'
   		
-  		
   	</select>
   	
   	<resultMap type="com.xtool.query.po.UserDTO" id="UserCar">
 		
 		<result column="uname" property="uname"/>
-		
+		<result column="islogin" property="islogin"/>
 		
 		<association property="carDTO" javaType="com.xtool.query.po.CarDTO">
 			<result column="cname" property="cname"/>
@@ -72,5 +71,11 @@
 		SELECT * FROM USER WHERE uname='${custom.uname}' and upassword='${custom.upassword}' 
 	</select>
 
+	<update id="updateUserByUname" parameterType="com.xtool.query.po.UserCustom">
+		UPDATE USER SET upassword='${upassword}',islogin='${islogin}' 
+		<where>
+			uname='${uname}'
+		</where>
+	</update>
 	
 </mapper>

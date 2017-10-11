@@ -1,5 +1,6 @@
 package com.xtool.query.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -45,7 +46,6 @@ public class AppController {
 		try {
 			sAesKey = RSAUtils.decryptByPrivateKey(privateKeyPath, dtcCustom.getKey());
 			CodingUtils.DeCoding(dtcCustom, sAesKey);
-//			dcode = AESUtil.decrypt(dtcCustom.getDcode(), sAesKey);
 			dcode = dtcCustom.getDcode();
 			dtcCustom.setDcode(dcode);
 			DtcQueryVo dtcQueryVo = new DtcQueryVo();
@@ -82,9 +82,10 @@ public class AppController {
 				message.setCode(201);
 				message.setMsg("用户名错误！");
 			}else {
+				//设置登录状态
+				userService.updateUserByUname(userCustom);
 				String uuid = RandomUtils.getRandomValue(16);
 				for(UserDTO user : userList) {
-					
 					CarDTO carDTO = user.getCarDTO();
 					if(carDTO != null) {
 						carDTO.setKey(uuid);
@@ -106,9 +107,12 @@ public class AppController {
 		return message;
 	}
 	
+	
+	
 	@RequestMapping("/upasswordUpdate")
-	public @ResponseBody MessageDTO<UserDTO> upasswordUpdate(@RequestBody UserCustom userCustom) {
+	public @ResponseBody MessageDTO<List<UserDTO>> upasswordUpdate(@RequestBody UserCustom userCustom) {
 		MessageDTO<List<UserDTO>> message = new  MessageDTO<List<UserDTO>>();
+		
 		message.setCode(0);
 		message.setMsg("");
 		String sAesKey = null;
@@ -122,10 +126,32 @@ public class AppController {
 			userDTO = new UserDTO();
 			BeanUtils.copyProperties(custom, userDTO);
 			String uuid = RandomUtils.getRandomValue(16);
+			userDTO.setKey(uuid);
 			CodingUtils.encodingByPrivateKey(userDTO, uuid);
+			List<UserDTO> list = new ArrayList<UserDTO>();
+			list.add(userDTO);
+			message.setData(list);
 		}catch (Exception e) {
 			message.setCode(101);
 			message.setMsg("密钥错误");
+		}
+		
+		return message;
+	}
+	
+	
+	@RequestMapping("/userinfoUpdate")
+	public @ResponseBody MessageDTO<List<UserDTO>> userinfoUpdate(@RequestBody UserCustom userCustom) {
+		MessageDTO<List<UserDTO>> message = new MessageDTO<List<UserDTO>>();
+		message.setCode(0);
+		message.setMsg("");
+		String sAesKey = null;
+		try {
+			sAesKey = RSAUtils.decryptByPrivateKey(privateKeyPath, userCustom.getKey());
+			CodingUtils.DeCoding(userCustom, sAesKey);
+			
+		} catch (Exception e) {
+			
 		}
 		
 		return null;

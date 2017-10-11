@@ -102,6 +102,12 @@ public class UserServiceImpl implements UserService{
 		return mapperCustom.findUserByUnameUpassword(userQueryVo);
 	}
 
+	@Override
+	public void updateUserByUname(UserCustom userCusto) throws Exception {
+		mapperCustom.updateUserByUname(userCusto);
+		
+	}
+
 	
 
 }

@@ -30,4 +30,5 @@ public interface UserService {
 	
 	public List<UserCustom> findUserByUnameUpassword(UserQueryVo userQueryVo) throws Exception;
 	
+	public void updateUserByUname(UserCustom userCusto) throws Exception;
 }

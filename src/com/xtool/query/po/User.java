@@ -7,6 +7,8 @@ public class User {
 
     private String upassword;
 
+    private String islogin;
+
     public Integer getUid() {
         return uid;
     }
@@ -29,5 +31,13 @@ public class User {
 
     public void setUpassword(String upassword) {
         this.upassword = upassword == null ? null : upassword.trim();
+    }
+
+    public String getIslogin() {
+        return islogin;
+    }
+
+    public void setIslogin(String islogin) {
+        this.islogin = islogin == null ? null : islogin.trim();
     }
 }

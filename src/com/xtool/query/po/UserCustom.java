@@ -12,11 +12,21 @@ public class UserCustom {
 
     private String upassword;
     
+    private String islogin;
+    
     private List<CarCustom> custom;
     
     private CarCustom carCustom;
     
 	
+	public String getIslogin() {
+		return islogin;
+	}
+
+	public void setIslogin(String islogin) {
+		this.islogin = islogin;
+	}
+
 	public CarCustom getCarCustom() {
 		return carCustom;
 	}
