@@ -42,6 +42,13 @@
   		
   	</select>
   	
+  	<select id="findUserDTOListByUname" parameterType="com.xtool.query.po.UserQueryVo"
+  		resultMap="UserCar">
+  		SELECT user.*,car.* FROM USER LEFT JOIN car ON (car.cuid=user.uid) 
+  		WHERE user.`uname`='${custom.uname}'
+  		
+  	</select>
+  	
   	<resultMap type="com.xtool.query.po.UserDTO" id="UserCar">
 		
 		<result column="uname" property="uname"/>
@@ -71,11 +78,18 @@
 		SELECT * FROM USER WHERE uname='${custom.uname}' and upassword='${custom.upassword}' 
 	</select>
 
-	<update id="updateUserByUname" parameterType="com.xtool.query.po.UserCustom">
-		UPDATE USER SET upassword='${upassword}',islogin='${islogin}' 
+	<update id="updateLoginByUname" parameterType="com.xtool.query.po.UserCustom">
+		UPDATE USER SET islogin='${islogin}' 
 		<where>
 			uname='${uname}'
 		</where>
+	</update>
+	
+	<update id="updateCarByUname" parameterType="com.xtool.query.po.UserCustom">
+		UPDATE USER u,car c SET c.cname='${carDTO.cname}',c.ctype='${carDTO.ctype}',c.cproduct='${carDTO.cproduct}', c.cdisplacement='${carDTO.cdisplacement}'
+		<where>
+			uname='${uname}'AND c.cuid=u.uid
+		</where> 
 	</update>
 	
 </mapper>

@@ -39,6 +39,11 @@ public class UserServiceImpl implements UserService{
 		
 		return mapperCustom.findUserDTOListByUnamePage(userQueryVo);
 	}
+	
+	@Override
+	public List<UserDTO> findUserDTOListByUname(UserQueryVo userQueryVo) throws Exception {
+		return mapperCustom.findUserDTOListByUname(userQueryVo);
+	}
 
 	@Override
 	public Integer findUserCountByUname(UserQueryVo userQueryVo) throws Exception {
@@ -103,9 +108,14 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void updateUserByUname(UserCustom userCusto) throws Exception {
-		mapperCustom.updateUserByUname(userCusto);
+	public void updateLoginByUname(UserCustom userCusto) throws Exception {
+		mapperCustom.updateLoginByUname(userCusto);
 		
+	}
+
+	@Override
+	public void updateCarByUname(UserCustom userCustom) throws Exception {
+		mapperCustom.updateCarByUname(userCustom);
 	}
 
 	

@@ -18,7 +18,18 @@ public class UserCustom {
     
     private CarCustom carCustom;
     
+    private CarDTO carDTO;
+    
+    
 	
+	public CarDTO getCarDTO() {
+		return carDTO;
+	}
+
+	public void setCarDTO(CarDTO carDTO) {
+		this.carDTO = carDTO;
+	}
+
 	public String getIslogin() {
 		return islogin;
 	}

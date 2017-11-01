@@ -39,13 +39,11 @@ public class AppController {
 	@RequestMapping("/queryDtcByDcodeJson")
 	public @ResponseBody MessageDTO<List<DtcDTO>> queryDtcByDcodeJson(@RequestBody DtcCustom dtcCustom) throws Exception {
 		MessageDTO<List<DtcDTO>> message = new MessageDTO<List<DtcDTO>>();
-		String sAesKey = null;
 		String dcode = null;
 		message.setCode(0);
 		message.setMsg("");
 		try {
-			sAesKey = RSAUtils.decryptByPrivateKey(privateKeyPath, dtcCustom.getKey());
-			CodingUtils.DeCoding(dtcCustom, sAesKey);
+			CodingUtils.deCodingData(dtcCustom.getKey(), dtcCustom);
 			dcode = dtcCustom.getDcode();
 			dtcCustom.setDcode(dcode);
 			DtcQueryVo dtcQueryVo = new DtcQueryVo();
@@ -71,10 +69,8 @@ public class AppController {
 		MessageDTO<List<UserDTO>> message = new  MessageDTO<List<UserDTO>>();
 		message.setCode(0);
 		message.setMsg("");
-		String sAesKey = null;
 		try {
-			sAesKey = RSAUtils.decryptByPrivateKey(privateKeyPath, userCustom.getKey());
-			CodingUtils.DeCoding(userCustom, sAesKey);
+			CodingUtils.deCodingData(userCustom.getKey(), userCustom);
 			UserQueryVo userQueryVo = new UserQueryVo();
 			userQueryVo.setCustom(userCustom);
 			List<UserDTO> userList = userService.findUserDTOListByUnamePage(userQueryVo);
@@ -83,7 +79,7 @@ public class AppController {
 				message.setMsg("用户名错误！");
 			}else {
 				//设置登录状态
-				userService.updateUserByUname(userCustom);
+				userService.updateLoginByUname(userCustom);
 				String uuid = RandomUtils.getRandomValue(16);
 				for(UserDTO user : userList) {
 					CarDTO carDTO = user.getCarDTO();
@@ -107,6 +103,29 @@ public class AppController {
 		return message;
 	}
 	
+	@RequestMapping("/userLogout")
+	public @ResponseBody MessageDTO<List<UserDTO>> userLogout(@RequestBody UserCustom userCustom) {
+		MessageDTO<List<UserDTO>> message = new MessageDTO<List<UserDTO>> ();
+		message.setCode(0);
+		message.setMsg("");
+		List<UserDTO> list = new ArrayList<UserDTO>();
+		try {
+			CodingUtils.deCodingData(userCustom.getKey(), userCustom);
+			userService.updateLoginByUname(userCustom);
+			String uuid = RandomUtils.getRandomValue(16);
+			UserDTO userDTO = new UserDTO();
+			BeanUtils.copyProperties(userCustom, userDTO);
+			userDTO.setKey(uuid);
+			userDTO.setIslogin("logout");
+			CodingUtils.encodingByPrivateKey(userDTO,uuid);
+			list.add(userDTO);
+			message.setData(list);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return message;
+	}
+	
 	
 	
 	@RequestMapping("/upasswordUpdate")
@@ -115,11 +134,9 @@ public class AppController {
 		
 		message.setCode(0);
 		message.setMsg("");
-		String sAesKey = null;
 		UserDTO userDTO;
 		try {
-			sAesKey = RSAUtils.decryptByPrivateKey(privateKeyPath, userCustom.getKey());
-			CodingUtils.DeCoding(userCustom, sAesKey);
+			CodingUtils.deCodingData(userCustom.getKey(), userCustom);
 			UserCustom user = userService.findUserByUname(userCustom.getUname());
 			userService.updateUser(user.getUid(), userCustom);
 			UserCustom custom = userService.findUserById(user.getUid());
@@ -149,11 +166,57 @@ public class AppController {
 		try {
 			sAesKey = RSAUtils.decryptByPrivateKey(privateKeyPath, userCustom.getKey());
 			CodingUtils.DeCoding(userCustom, sAesKey);
+			userService.updateCarByUname(userCustom);
 			
+			UserQueryVo userQueryVo = new UserQueryVo();
+			userQueryVo.setCustom(userCustom);
+			List<UserDTO> userList = userService.findUserDTOListByUname(userQueryVo);
+			if(userList.size() != 1) {
+				message.setCode(201);
+				message.setMsg("用户名错误！");
+			}else {
+				String uuid = RandomUtils.getRandomValue(16);
+				for(UserDTO user : userList) {
+					CarDTO carDTO = user.getCarDTO();
+					if(carDTO != null) {
+						carDTO.setKey(uuid);
+						CodingUtils.encodingByPrivateKey(carDTO,uuid);
+						user.setCarDTO(carDTO);
+					}
+					user.setKey(uuid);
+					CodingUtils.encodingByPrivateKey(user,uuid);
+				}
+				message.setCode(0);
+				message.setMsg("");
+				message.setData(userList);
+			}
 		} catch (Exception e) {
-			
+			message.setCode(101);
+			message.setMsg("密钥错误");
 		}
 		
-		return null;
+		return message;
+	}
+	
+	@RequestMapping("/userInsert")
+	public @ResponseBody MessageDTO<List<UserDTO>> userInsert(@RequestBody UserCustom userCustom) {
+		MessageDTO<List<UserDTO>> message = new MessageDTO<List<UserDTO>>();
+		message.setCode(0);
+		message.setMsg("");
+		List<UserDTO> userList = new ArrayList<UserDTO>();
+		String sAesKey = null;
+		try {
+			sAesKey = RSAUtils.decryptByPrivateKey(privateKeyPath, userCustom.getKey());
+			CodingUtils.DeCoding(userCustom, sAesKey);
+			userService.insertUser(userCustom);
+			message.setCode(0);
+			message.setMsg("");
+			message.setData(userList);
+		} catch (Exception e) {
+			message.setCode(101);
+			message.setMsg("密钥错误");
+		}
+		
+		return message;
 	}
 }

@@ -16,6 +16,8 @@ public interface UserService {
 	
 	public List<UserDTO> findUserDTOListByUnamePage(UserQueryVo userQueryVo) throws Exception;
 	
+	public List<UserDTO> findUserDTOListByUname(UserQueryVo userQueryVo) throws Exception;
+	
 	public Integer findUserCountByUname(UserQueryVo userQueryVo) throws Exception;
 	
 	public UserCustom findUserById(Integer id) throws Exception;
@@ -30,5 +32,7 @@ public interface UserService {
 	
 	public List<UserCustom> findUserByUnameUpassword(UserQueryVo userQueryVo) throws Exception;
 	
-	public void updateUserByUname(UserCustom userCusto) throws Exception;
+	public void updateLoginByUname(UserCustom userCustom) throws Exception;
+	
+	public void updateCarByUname(UserCustom userCustom) throws Exception;
 }
