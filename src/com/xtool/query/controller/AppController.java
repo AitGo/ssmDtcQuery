@@ -76,7 +76,7 @@ public class AppController {
 			List<UserDTO> userList = userService.findUserDTOListByUnamePage(userQueryVo);
 			if(userList.size() != 1) {
 				message.setCode(201);
-				message.setMsg("用户名错误！");
+				message.setMsg("用户名或密码错误");
 			}else {
 				//设置登录状态
 				userService.updateLoginByUname(userCustom);
@@ -173,7 +173,7 @@ public class AppController {
 			List<UserDTO> userList = userService.findUserDTOListByUname(userQueryVo);
 			if(userList.size() != 1) {
 				message.setCode(201);
-				message.setMsg("用户名错误！");
+				message.setMsg("用户名或密码错误");
 			}else {
 				String uuid = RandomUtils.getRandomValue(16);
 				for(UserDTO user : userList) {
@@ -208,10 +208,16 @@ public class AppController {
 		try {
 			sAesKey = RSAUtils.decryptByPrivateKey(privateKeyPath, userCustom.getKey());
 			CodingUtils.DeCoding(userCustom, sAesKey);
-			userService.insertUser(userCustom);
-			message.setCode(0);
-			message.setMsg("");
-			message.setData(userList);
+			UserCustom custom = userService.findUserByUname(userCustom.getUname());
+			if(custom != null) {
+				message.setCode(202);
+				message.setMsg("用户名重复");
+			}else {
+				userService.insertUser(userCustom);
+				message.setCode(0);
+				message.setMsg("");
+				message.setData(userList);
+			}
 		} catch (Exception e) {
 			message.setCode(101);
 			message.setMsg("密钥错误");
