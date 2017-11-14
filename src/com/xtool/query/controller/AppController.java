@@ -19,6 +19,7 @@ import com.xtool.query.po.MessageDTO;
 import com.xtool.query.po.UserCustom;
 import com.xtool.query.po.UserDTO;
 import com.xtool.query.po.UserQueryVo;
+import com.xtool.query.service.CarService;
 import com.xtool.query.service.DtcService;
 import com.xtool.query.service.UserService;
 import com.xtool.query.utils.CodingUtils;
@@ -33,6 +34,8 @@ public class AppController {
 	private DtcService dtcService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private CarService carService;
 	private String privateKeyPath = "D:\\file\\privateKey.cer"; 
 	private String publicKeyPath = "D:\\file\\publicKey.cer"; 
 	
@@ -166,7 +169,22 @@ public class AppController {
 		try {
 			sAesKey = RSAUtils.decryptByPrivateKey(privateKeyPath, userCustom.getKey());
 			CodingUtils.DeCoding(userCustom, sAesKey);
-			userService.updateCarByUname(userCustom);
+			UserQueryVo userquery = new UserQueryVo();
+			userquery.setCustom(userCustom);
+			List<UserDTO> userinfoList = userService.findUserDTOListByUname(userquery);
+			if(userinfoList.get(0).getCarDTO() != null 
+					&& userinfoList.get(0).getCarDTO().getCuid() != null
+					&& !userinfoList.get(0).getCarDTO().getCuid().equals("")) {
+				userService.updateCarByUname(userCustom);
+			}else {
+				//插入car表数据
+				CarCustom car = new CarCustom();
+				BeanUtils.copyProperties(userCustom.getCarDTO(), car);
+				UserCustom findUserByUname = userService.findUserByUname(userCustom.getUname());
+				car.setCuid(findUserByUname.getUid());
+				carService.insertCar(car);
+				
+			}
 			
 			UserQueryVo userQueryVo = new UserQueryVo();
 			userQueryVo.setCustom(userCustom);
