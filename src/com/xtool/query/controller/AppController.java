@@ -125,6 +125,7 @@ public class AppController {
 			message.setData(list);
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return message;
 	}
@@ -183,9 +184,7 @@ public class AppController {
 				UserCustom findUserByUname = userService.findUserByUname(userCustom.getUname());
 				car.setCuid(findUserByUname.getUid());
 				carService.insertCar(car);
-				
 			}
-			
 			UserQueryVo userQueryVo = new UserQueryVo();
 			userQueryVo.setCustom(userCustom);
 			List<UserDTO> userList = userService.findUserDTOListByUname(userQueryVo);

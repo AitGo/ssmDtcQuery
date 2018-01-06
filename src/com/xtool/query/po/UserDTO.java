@@ -6,12 +6,25 @@ public class UserDTO {
 
 	private String key;
 	
+	private Integer uid;
+	
     private String uname;
     
     private String islogin;
 
     private CarDTO carDTO;
     
+    
+    
+
+	public Integer getUid() {
+		return uid;
+	}
+
+	public void setUid(Integer uid) {
+		this.uid = uid;
+	}
+
 	public String getIslogin() {
 		return islogin;
 	}

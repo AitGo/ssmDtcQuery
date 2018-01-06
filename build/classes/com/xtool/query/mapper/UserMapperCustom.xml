@@ -52,6 +52,7 @@
   	<resultMap type="com.xtool.query.po.UserDTO" id="UserCar">
 		
 		<result column="uname" property="uname"/>
+		<result column="uid" property="uid"/>
 		<result column="islogin" property="islogin"/>
 		
 		<association property="carDTO" javaType="com.xtool.query.po.CarDTO">
